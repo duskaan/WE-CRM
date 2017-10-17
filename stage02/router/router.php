@@ -20,6 +20,9 @@ function route($method, $path, $routeFunction) {
 
 function route_auth($method, $path, $auth, $routeFunction) {
     global $routes;
+    $path = trim($path, "/");
+    $routes[$method][$path]["auth"] = $auth;
+    $routes[$method][$path]["function"] = $function;
 
     /* TODO: add paths to $routes[] array.
      * 1. Maybe you will have to trim the $path first.
