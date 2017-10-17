@@ -23,7 +23,7 @@ function route_auth($method, $path, $auth, $function) {
     $path = trim($path, "/");
     $routes[$method][$path]["auth"] = $auth;
     $routes[$method][$path]["function"] = $function;
-    // $routes[$method][$path] = array("auth"=>$auth, "function"=>$function); the same in one line as above
+
     /* TODO: add paths to $routes[] array.
      * 1. Maybe you will have to trim the $path first.
      * 2. Create a multi dimensional array (suggestion: $routes[$method][$path]) and store the auth and function Lambdas as one array.
@@ -35,9 +35,6 @@ function call_route($method, $path) {
     global $error;
     $path = trim(parse_url($path, PHP_URL_PATH), '/');
     /* TODO: check if method (GET, POST...) or path exists in array.
-
-
-
      * If one of both does not exist call the error Lambda:
      * call_user_func($error); return;
      */
