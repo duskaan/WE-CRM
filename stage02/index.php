@@ -76,6 +76,7 @@ route_auth("POST", "/customer/update", $authFunction, function() {
     $data = $_POST["name"];
     redirect("/");
 });
+layoutSetContent("customers.php");
 
 /* TODO: call the router.
  * 1. Find out how the retrieve the request method and the path info from the PHP server variable.
