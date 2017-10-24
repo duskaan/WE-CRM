@@ -1,0 +1,8 @@
+[database]
+driver=pgsql
+user=jrzshvkuyztjpq
+password=52d15e68cfee3e4a5071435e92cbe0e101cd27b724469a92df4a5d3154024619
+host=ec2-54-75-237-110.eu-west-1.compute.amazonaws.com
+port=5432
+database=davc6of5mjbuek
+
