@@ -12,6 +12,7 @@ use controller\CustomerController;
 use controller\AgentController;
 use controller\AuthController;
 use controller\ErrorController;
+use http\HTTPException;
 
 session_start();
 
@@ -20,11 +21,6 @@ $authFunction = function () {
         return true;
     Router::redirect("/login");
     return false;
-};
-
-$errorFunction = function () {
-    Router::errorHeader();
-    ErrorController::show404();
 };
 
 Router::route("GET", "/login", function () {
@@ -81,4 +77,9 @@ Router::route_auth("POST", "/customer/update", $authFunction, function () {
         Router::redirect("/");
 });
 
-Router::call_route($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO'], $errorFunction);
+try {
+    Router::call_route($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO'], $errorFunction);
+} catch (HTTPException $exception) {
+    $exception->getHeader();
+    ErrorController::show404();
+}
