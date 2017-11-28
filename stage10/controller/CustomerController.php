@@ -9,27 +9,27 @@
 namespace controller;
 
 use domain\Customer;
-use service\WECRMServiceImpl;
-use view\View;
+use service\CustomerServiceImpl;
+use view\TemplateView;
 use view\LayoutRendering;
 
 class CustomerController
 {
     public static function create(){
-        $contentView = new View("customerEdit.php");
+        $contentView = new TemplateView("customerEdit.php");
         LayoutRendering::basicLayout($contentView);
     }
 
     public static function readAll(){
-        $contentView = new View("customers.php");
-        $contentView->customers = WECRMServiceImpl::getInstance()->findAllCustomer();
+        $contentView = new TemplateView("customers.php");
+        $contentView->customers = (new CustomerServiceImpl())->findAllCustomer();
         LayoutRendering::basicLayout($contentView);
     }
 
     public static function edit(){
         $id = $_GET["id"];
-        $contentView = new View("customerEdit.php");
-        $contentView->customer = WECRMServiceImpl::getInstance()->readCustomer($id);
+        $contentView = new TemplateView("customerEdit.php");
+        $contentView->customer = (new CustomerServiceImpl())->readCustomer($id);
         LayoutRendering::basicLayout($contentView);
     }
 
@@ -40,15 +40,15 @@ class CustomerController
         $customer->setEmail($_POST["email"]);
         $customer->setMobile($_POST["mobile"]);
         if ($customer->getId() === "") {
-            WECRMServiceImpl::getInstance()->createCustomer($customer);
+            (new CustomerServiceImpl())->createCustomer($customer);
         } else {
-            WECRMServiceImpl::getInstance()->updateCustomer($customer);
+            (new CustomerServiceImpl())->updateCustomer($customer);
         }
     }
 
     public static function delete(){
         $id = $_GET["id"];
-        WECRMServiceImpl::getInstance()->deleteCustomer($id);
+        (new CustomerServiceImpl())->deleteCustomer($id);
     }
 
 }

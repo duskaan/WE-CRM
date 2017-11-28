@@ -8,30 +8,30 @@
 
 namespace controller;
 
-use service\WECRMServiceImpl;
-use view\View;
+use service\AuthServiceImpl;
+use view\TemplateView;
 
 class AgentController
 {
     public static function edit(){
-        $view = new View("agentEdit.php");
-        $view->agent = WECRMServiceImpl::getInstance()->readAgent();
+        $view = new TemplateView("agentEdit.php");
+        $view->agent = AuthServiceImpl::getInstance()->readAgent();
         echo $view->render();
     }
 
     public static function update(){
-        WECRMServiceImpl::getInstance()->editAgent($_POST["name"],$_POST["email"], $_POST["password"]);
+        AuthServiceImpl::getInstance()->editAgent($_POST["name"],$_POST["email"], $_POST["password"]);
     }
 
     public static function register(){
-        WECRMServiceImpl::getInstance()->registerAgent($_POST["name"],$_POST["email"], $_POST["password"]);
+        AuthServiceImpl::getInstance()->editAgent($_POST["name"],$_POST["email"], $_POST["password"]);
     }
 
     public static function registerView(){
-        echo (new View("agentRegister.php"))->render();
+        echo (new TemplateView("agentRegister.php"))->render();
     }
 
     public static function loginView(){
-        echo (new View("agentLogin.php"))->render();
+        echo (new TemplateView("agentLogin.php"))->render();
     }
 }

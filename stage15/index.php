@@ -15,8 +15,10 @@ use controller\ErrorController;
 use controller\AgentPasswordResetController;
 use controller\EmailController;
 use controller\PDFController;
-use service\WECRMServiceEndpoint;
+use service\ServiceEndpoint;
 use http\HTTPException;
+use http\HTTPHeader;
+use http\HTTPStatusCode;
 
 session_start();
 
@@ -109,49 +111,56 @@ Router::route_auth("GET", "/customer/pdf", $authFunction, function () {
 });
 
 $authAPIBasicFunction = function () {
-    if (WECRMServiceEndpoint::authenticateBasic())
+    if (ServiceEndpoint::authenticateBasic())
         return true;
     Router::errorHeader();
     return false;
 };
 
-Router::route_auth("GET", "/api/token/", $authAPIBasicFunction, function () {
-    WECRMServiceEndpoint::loginBasicToken();
+Router::route_auth("GET", "/api/token", $authAPIBasicFunction, function () {
+    ServiceEndpoint::loginBasicToken();
 });
 
 $authAPITokenFunction = function () {
-    if (WECRMServiceEndpoint::authenticateToken())
+    if (ServiceEndpoint::authenticateToken())
         return true;
     Router::errorHeader();
     return false;
 };
 
-Router::route_auth("GET", "/api/token/validate", $authAPITokenFunction, function () {
-    WECRMServiceEndpoint::validateToken();
+Router::route_auth("HEAD", "/api/token", $authAPITokenFunction, function () {
+    ServiceEndpoint::validateToken();
 });
 
-Router::route_auth("GET", "/api/customer/", $authAPITokenFunction, function () {
-    WECRMServiceEndpoint::findAllCustomer();
+Router::route_auth("GET", "/api/customer", $authAPITokenFunction, function () {
+    ServiceEndpoint::findAllCustomer();
 });
 
 Router::route_auth("GET", "/api/customer/{id}", $authAPITokenFunction, function ($id) {
-    WECRMServiceEndpoint::readCustomer($id);
+    ServiceEndpoint::readCustomer($id);
 });
 
 Router::route_auth("PUT", "/api/customer/{id}", $authAPITokenFunction, function ($id) {
-    WECRMServiceEndpoint::update($id);
+    ServiceEndpoint::updateCustomer($id);
 });
 
-Router::route_auth("POST", "/api/customer/", $authAPITokenFunction, function () {
-    WECRMServiceEndpoint::create();
+Router::route_auth("POST", "/api/customer", $authAPITokenFunction, function () {
+    ServiceEndpoint::createCustomer();
 });
 
 Router::route_auth("DELETE", "/api/customer/{id}", $authAPITokenFunction, function ($id) {
-    WECRMServiceEndpoint::delete($id);
+    ServiceEndpoint::deleteCustomer($id);
 });
 
 try {
-    Router::call_route($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO']);
+    HTTPHeader::setHeader("Access-Control-Allow-Origin: *");
+    HTTPHeader::setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, HEAD");
+    HTTPHeader::setHeader("Access-Control-Allow-Headers: Authorization, Location, Origin, Content-Type, X-Requested-With");
+    if($_SERVER['REQUEST_METHOD']=="OPTIONS") {
+        HTTPHeader::setStatusHeader(HTTPStatusCode::HTTP_204_NO_CONTENT);
+    } else {
+        Router::call_route($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO']);
+    }
 } catch (HTTPException $exception) {
     $exception->getHeader();
     ErrorController::show404();

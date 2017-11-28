@@ -8,19 +8,19 @@
 
 namespace controller;
 
-use service\WECRMServiceImpl;
+use service\AuthServiceImpl;
 
 class AuthController
 {
 
     public static function authenticate(){
         if (isset($_SESSION["agentLogin"])) {
-            if(WECRMServiceImpl::getInstance()->validateToken($_SESSION["agentLogin"]["token"])) {
+            if(AuthServiceImpl::getInstance()->validateToken($_SESSION["agentLogin"]["token"])) {
                 return true;
             }
         }
         if (isset($_COOKIE["token"])) {
-            if(WECRMServiceImpl::getInstance()->validateToken($_COOKIE["token"])) {
+            if(AuthServiceImpl::getInstance()->validateToken($_COOKIE["token"])) {
                 return true;
             }
         }
@@ -28,10 +28,10 @@ class AuthController
     }
 
     public static function login(){
-        $weCRMService = WECRMServiceImpl::getInstance();
-        if($weCRMService->verifyAgent($_POST["email"],$_POST["password"]))
+        $authService = AuthServiceImpl::getInstance();
+        if($authService->verifyAgent($_POST["email"],$_POST["password"]))
         {
-            $token = $weCRMService->issueToken();
+            $token = $authService->issueToken();
             $_SESSION["agentLogin"]["token"] = $token;
             if(isset($_POST["remember"])) {
                 setcookie("token", $token, (new \DateTime('now'))->modify('+30 days')->getTimestamp(), "/");

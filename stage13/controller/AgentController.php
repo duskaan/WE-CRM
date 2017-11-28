@@ -8,16 +8,16 @@
 
 namespace controller;
 
-use service\WECRMServiceImpl;
+use service\AuthServiceImpl;
 use validator\AgentValidator;
-use view\View;
+use view\TemplateView;
 use domain\Agent;
 
 class AgentController
 {
     public static function editView(){
-        $view = new View("agentEdit.php");
-        $view->agent = WECRMServiceImpl::getInstance()->readAgent();
+        $view = new TemplateView("agentEdit.php");
+        $view->agent = AuthServiceImpl::getInstance()->readAgent();
         $view->pageTitle = "WE-CRM";
         $view->pageHeading = "<strong>WE-CRM | Update</strong> your account.";
         $view->pageSubmitText = "Update";
@@ -26,11 +26,11 @@ class AgentController
     }
 
     public static function registerView(){
-        echo (new View("agentEdit.php"))->render();
+        echo (new TemplateView("agentEdit.php"))->render();
     }
 
     public static function update(){
-        $view = new View("agentEdit.php");
+        $view = new TemplateView("agentEdit.php");
         $view->pageTitle = "WE-CRM";
         $view->pageHeading = "<strong>WE-CRM | Update</strong> your account.";
         $view->pageSubmitText = "Update";
@@ -45,7 +45,7 @@ class AgentController
         $agent->setPassword($_POST["password"]);
         $agentValidator = new AgentValidator($agent);
         if($agentValidator->isValid()){
-            if(WECRMServiceImpl::getInstance()->editAgent($agent->getName(),$agent->getEmail(), $agent->getPassword())){
+            if(AuthServiceImpl::getInstance()->editAgent($agent->getName(),$agent->getEmail(), $agent->getPassword())){
                 return true;
             }else{
                 $agentValidator->setEmailError("Email already exists");
@@ -53,7 +53,7 @@ class AgentController
         }
         $agent->setPassword("");
         if (is_null($view))
-            $view = new View("agentEdit.php");
+            $view = new TemplateView("agentEdit.php");
         $view->agent = $agent;
         $view->agentValidator = $agentValidator;
         echo $view->render();
@@ -61,6 +61,6 @@ class AgentController
     }
 
     public static function loginView(){
-        echo (new View("agentLogin.php"))->render();
+        echo (new TemplateView("agentLogin.php"))->render();
     }
 }

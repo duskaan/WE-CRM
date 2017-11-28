@@ -5,25 +5,23 @@ This is a reference project elaborated by the students step-by-step in every FHN
 - [Analysis](#analysis)
     - [Scenario](#scenario)
     - [Use Case](#use-case)
-    - [Constraints](#constraints)
 - [Design](#design)
-    - [Solution Strategy](#solution-strategy)
-    - [Wireframe](#wireframe)
-    - [Entity Relationship Diagram](#entity-relationship-diagram)
-    - [Domain Model](#domain-model)
-    - [Data Access Model](#data-access-model)
-    - [Business Logic Model](#business-logic-model)
+    - [Information Systems Modelling](#information-systems-modelling)
+    - [Information Systems (Layering) Architecture](#information-systems-layering-architecture)
 - [Implementation](#implementation)
     - [Stage 1: Building a Static Website with Bootstrap](#stage-1-building-a-static-website-with-bootstrap)
+        - [Wireframes](#wireframes)
+        - [HTML-Prototype](#html-prototype)
     - [Stage 2: PHP Files, Basic Router and Session](#stage-2-php-files-basic-router-and-session)
         - [.htaccess](#htaccess)
         - [Procedural Router](#procedural-router)
         - [Session](#session)
     - [Stage 3: Database, .env Config Files and Passwords](#stage-3-database-env-config-files-and-passwords)
+        - [Entity Relationship Diagram](#entity-relationship-diagram)
         - [Database](#database)
         - [.env Config Files](#env-config-files)
         - [PDO](#pdo)
-    - [Passwords](#passwords)
+        - [Passwords](#passwords)
     - [Stage 4: Dynamic Views](#stage-4-dynamic-views)
     - [Stage 5: namespace/use, Auto-Loading and Class Oriented Router](#stage-5-namespaceuse-auto-loading-and-class-oriented-router)
         - [namespace/use and Auto-Loading](#namespaceuse-and-auto-loading)
@@ -31,9 +29,13 @@ This is a reference project elaborated by the students step-by-step in every FHN
     - [Stage 6: Database, Config Classes, Exception Handling and HTTP Status](#stage-6-database-config-classes-exception-handling-and-http-status)
         - [Exception Handling and HTTP Status](#exception-handling-and-http-status)
     - [Stage 7: Domain and Data Access Objects (DAO)](#stage-7-domain-and-data-access-objects-dao)
+        - [Domain Model](#domain-model)
         - [Domain Objects](#domain-objects)
+        - [Data Access Model](#data-access-model)
         - [Data Access Objects (DAO)](#data-access-objects-dao)
     - [Stage 8: Business Services](#stage-8-business-services)
+        - [Business Logic Model](#business-logic-model)
+        - [Service Interfaces and Implementations](#service-interfaces-and-implementations)
     - [Stage 9: Template View Pattern and XSS](#stage-9-template-view-pattern-and-xss)
         - [Template View Pattern](#template-view-pattern)
         - [XSS](#xss)
@@ -41,10 +43,19 @@ This is a reference project elaborated by the students step-by-step in every FHN
     - [Stage 11: Validation](#stage-11-validation)
     - [Stage 12: Auth and Remember Me](#stage-12-auth-and-remember-me)
     - [Stage 13: Email and Password Reset](#stage-13-email-and-password-reset)
+        - [Email](#email)
+        - [Password Reset](#password-reset)
     - [Stage 14: PDF](#stage-14-pdf)
     - [Stage 15: REST Service API](#stage-15-rest-service-api)
-    - [Stage 16: JavaScript & jQuery Client](#stage-16-javascript-jquery-client)
-- [Evaluation and Deployment](#evaluation-and-deployment)
+        - [API Model](#api-model)
+        - [API Authorization](#api-authorization)
+        - [JSON Serialization](#json-serialization)
+        - [Service Endpoint](#service-endpoint)
+        - [API Routes](#api-routes)
+    - [Stage 16: JavaScript and jQuery Client](#stage-16-javascript-and-jquery-client)
+        - [API Login and Local Token Storage](#api-login-and-local-token-storage)
+        - [AJAX Calls for API Consumption](#ajax-calls-for-api-consumption)
+- [Deployment](#deployment)
     - [Project Set-Up](#project-set-up)
         - [Visual Paradigm](#visual-paradigm)
             - [Default Parameter Direction Configuration](#default-parameter-direction-configuration)
@@ -70,43 +81,29 @@ WE-CRM (Web Engineering Customer-Relationship-Management) is the smallest possib
 - UC-5 [Generate a PDF customer list]: Agents can generate a PDF containing a list of their customers.
 - UC-6 [Send customer list via email]: Agents can send an email containing a list of their customers to their own inbox.
 
-### Constraints
-
-TODO: write
-
 ## Design
 
-### Solution Strategy
+### Information Systems Modelling
 
-TODO: write
+![](modelling/images/WE-CRM-Layering-Models.png)
 
-### Wireframe
+### Information Systems (Layering) Architecture
 
-![](modelling/images/WE-CRM-Wireframe%20-%20Log-In.png)
-![](modelling/images/WE-CRM-Wireframe%20-%20Customers.png)
-![](modelling/images/WE-CRM-Wireframe%20-%20Edit.png)
-
-### Entity Relationship Diagram
-
-![](modelling/images/WE-CRM-ERD.png)
-
-### Domain Model
-
-![](modelling/images/WE-CRM-Domain-Model.png)
-
-### Data Access Model
-
-![](modelling/images/WE-CRM-Data-Access.png)
-
-### Business Logic Model
-
-![](modelling/images/WE-CRM-Business-Logic.png)
+![](modelling/images/WE-CRM-Layering-Structure.png)
 
 ## Implementation
 
 ### Stage 1: Building a Static Website with Bootstrap
 
 In stage 01 a bootstrap based prototype has been created by using a prototyping application. 
+
+#### Wireframes
+
+| Log-in | Customers | Edit |
+| - | - | - | 
+| ![](modelling/images/WE-CRM-Wireframe%20-%20Log-In.png) | ![](modelling/images/WE-CRM-Wireframe%20-%20Customers.png) | ![](modelling/images/WE-CRM-Wireframe%20-%20Edit.png) |
+
+#### HTML-Prototype
 
 In this case, the prototype application Bootstrap Studio has been used to create a basic user interface design based on an HTML grid, Bootstrap CSS and JavaScript, including the selection of web fonts and font-based icons.
 
@@ -195,6 +192,10 @@ session_destroy();
 ### Stage 3: Database, .env Config Files and Passwords
 
 In stage 3 (and stage 4) WE-CRM will be extended with a database functionality. 
+
+#### Entity Relationship Diagram
+
+![](modelling/images/WE-CRM-ERD.png)
 
 #### Database
 
@@ -292,7 +293,7 @@ $stmt->execute();
 $resultArray = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ```
 
-### Passwords
+#### Passwords
 
 Passwords are extremely sensitive data.
 1. They must be transmitted over HTTPS only - never HTTP only!
@@ -434,18 +435,21 @@ interface HTTPStatusCode
 
 trait HTTPStatusHeader
 {
-    protected static function createHeader($statusCode = HTTPStatusCode::HTTP_200_OK, $statusPhrase = null)
-    {
+    public static function setStatusHeader($statusCode = HTTPStatusCode::HTTP_200_OK, $replaceHeader = true, $statusPhrase = null){
         // ...
     }
+
+    public static function setHeader($header, $statusCode = HTTPStatusCode::HTTP_200_OK, $replaceHeader = true){
+        // ...
+    }
+
 }
 
 class HTTPHeader implements HTTPStatusCode
 {
     use HTTPStatusHeader;
 
-    public static function getHeader($statusCode = HTTPStatusCode::HTTP_200_OK, $replaceHeader = true, $statusPhrase = null){
-        self::createHeader($statusCode, $statusPhrase);
+    public static function redirect($redirect_path, $statusCode = HTTPStatusCode::HTTP_301_MOVED_PERMANENTLY) {
         // ...
     }
 }
@@ -454,10 +458,15 @@ class HTTPException extends Exception implements HTTPStatusCode
 {
     use HTTPStatusHeader;
 
-    public function __construct($statusCode = HTTPStatusCode::HTTP_200_OK, $statusPhrase = null, $body = null)
+    public function __construct($statusCode = HTTPStatusCode::HTTP_400_BAD_REQUEST, $statusPhrase = null, $body = null)
     {
         self::createHeader($statusCode, $statusPhrase);
         // ...
+    }
+
+    public function getHeader($replaceHeader = true){
+        self::setHeader($this->header, $this->statusCode, $replaceHeader);
+        return $this->header;
     }
 }
 ```
@@ -477,6 +486,10 @@ try {
 
 In stage 7, the [Domain Model](#domain-model), which has been elaborated in [stage 3 (database section)](#database), will be transferred into PHP code and be accessible by implementing data access objects (DAO) in a CRUD (create read, update and delete) style.
 
+#### Domain Model
+
+![](modelling/images/WE-CRM-Domain-Model.png)
+
 #### Domain Objects
 
 Depending on the modelling environment, a [Domain Model](#domain-model) can be transferred into PHP classes. Such domain objects contain no logic, except some very basic logic for setting and getting data (getters/setters).
@@ -490,6 +503,10 @@ $stmt->bindValue(':email', $email);
 $stmt->execute();
 $agent = $stmt->fetchAll(PDO::FETCH_CLASS, "domain\Agent")[0];
 ```
+
+#### Data Access Model
+
+![](modelling/images/WE-CRM-Data-Access.png)
 
 #### Data Access Objects (DAO)
 
@@ -522,16 +539,24 @@ class AgentDAO extends BasicDAO {
 
 ### Stage 8: Business Services
 
-In stage 8, a service interface and a service implementation based on the [Business Logic Model](#business-logic-model) is given. In this reference project, the term service referred to business service has been selected. Sometimes the term business logic acting on a business logic layer is used.
+In stage 8, two service interfaces and service implementations based on the [Business Logic Model](#business-logic-model) are given. In this reference project, the term service referred to business service has been selected. Sometimes the term business logic acting on a business logic layer is used.
 
-Since this reference project is as small and simplified as possible for teaching purposes, a one-class singleton strategy has been chosen. In a bigger application scenario, it would make sense to build several business services for different use-cases.
+#### Business Logic Model
+
+![](modelling/images/WE-CRM-Business-Logic.png)
+
+#### Service Interfaces and Implementations
+
+Since this reference project is as small and simplified as possible for teaching purposes, a one-class singleton strategy has been chosen for authentication (`AuthService`) and one service has been implemented for the customer use-cases (`CustomerService`). In a bigger application scenario, it would make sense to build several business services for different use-cases.
 
 Business services contain the business decisions as in PHP transferred business rules. An example such a rule could be that an agent is only allowed to edit the customers she or he is responsible for.
 
-As shown in the [Business Logic Model](#business-logic-model), the service interface just lists the required methods, which must be implemented in the service implementation. In this reference project the service implementation is realized using the singleton pattern:
+As shown in the [Business Logic Model](#business-logic-model), the service interface just lists the required methods, which must be implemented in the service implementation. 
+
+It is rarely the case that the usage of a singleton makes sense in PHP, since, compared to Java, PHP is strictly stateless (except session) and every request is in an isolated process. Nevertheless, in this reference project the authentication service implementation is realized using the singleton pattern:
 
 ```PHP
-class WECRMServiceImpl implements WECRMService {
+class AuthServiceImpl implements AuthService {
 
     private static $instance = null;
 
@@ -556,7 +581,21 @@ class WECRMServiceImpl implements WECRMService {
 }
 ```
 
-It is rarely the case that the usage of a singleton makes sense in PHP, since, compared to Java, PHP is strictly stateless (except session) and every request is in an isolated process.
+The business logic, which is referred to the customer use-case(s), is implemented in the customer service:
+
+```PHP
+class CustomerServiceImpl implements CustomerService
+{
+    public function createCustomer(Customer $customer) {
+        if(AuthServiceImpl::getInstance()->verifyAuth()) {
+            $customerDAO = new CustomerDAO();
+            $customer->setAgentId(AuthServiceImpl::getInstance()->getCurrentAgentId());
+            return $customerDAO->create($customer);
+        }
+        throw new HTTPException(HTTPStatusCode::HTTP_401_UNAUTHORIZED);
+    }
+}
+```
 
 ### Stage 9: Template View Pattern and XSS
 
@@ -566,15 +605,17 @@ Since this reference project does not rely on a template engine such as Blade or
 
 The one template view pattern does not really exist. This implementation has been inspired by the Book [PHP Design Patterns](https://books.google.ch/books?id=2R5IBAAAQBAJ&pg=PA453) and the example of [Alejandro Gervasio](https://www.sitepoint.com/flexible-view-manipulation-1/).
 
-In following the View class is explained - the complete View class can be found within the stage09\view folder.
+![](modelling/images/WE-CRM-Template-View-Pattern.png)
+
+In following the TemplateView class is explained - the complete TemplateView class can be found within the stage09\view folder.
 
 The basic idea is to assign a view `.php` file to a view by passing the information through the constructor:
 ```PHP
-$contentView = new View("customerEdit.php");
+$contentView = new TemplateView("customerEdit.php");
 ```
 ___
 ```PHP
-class View {
+class TemplateView {
 
     private $view;
 
@@ -586,13 +627,13 @@ class View {
 
 Once the view has been instantiated, data can be injected into the view by using a magic `__set()` method. Finally, the view will be rendered by using the `render()` method:
 ```PHP
-$contentView = new View("customerEdit.php");
-$contentView->customer = WECRMServiceImpl::getInstance()->readCustomer($id);
+$contentView = new TemplateView("customerEdit.php");
+$contentView->customer = (new CustomerServiceImpl())->readCustomer($id);
 echo $contentView->render();
 ```
 ___
 ```PHP
-class View {
+class TemplateView {
 
     private $view;
     private $variables = array();
@@ -611,12 +652,17 @@ class View {
 ```
 
 The data that has been injected can be accessed within a view `.php` file by using a magic `__get()` method. At the same time it may make sense to validate if a variable has been set:
+
 ```PHP
-<input class="form-control" type="text" name="id" readonly="" value="<?php echo isset($this->customer) ? $this->customer->getId() : ''; ?>">
+isset($this->customer) ? $customer = $this->customer : $customer = new Customer();
+```
+
+```PHP
+<input class="form-control" type="text" name="id" readonly="" value="<?php echo $customer->getId() ?>">
 ```
 ___
 ```PHP
-class View {
+class TemplateView {
 
     private $variables = array();
 
@@ -634,14 +680,14 @@ class View {
 
 #### XSS
 
-To prevent XSS (Cross-Site Scripting) attacks any character in a user input that can affect the structure of the HTML document must be escaped on output (when displaying to a user). Following the guidelines of the [Paragon Initiative Enterprises Blog](https://paragonie.com/blog/2015/06/preventing-xss-vulnerabilities-in-php-everything-you-need-know) the View class consists of a static method that can be used in a view `.php` file:
+To prevent XSS (Cross-Site Scripting) attacks any character in a user input that can affect the structure of the HTML document must be escaped on output (when displaying to a user). Following the guidelines of the [Paragon Initiative Enterprises Blog](https://paragonie.com/blog/2015/06/preventing-xss-vulnerabilities-in-php-everything-you-need-know) the TemplateView class consists of a static method that can be used in a view `.php` file:
 
 ```PHP
-<input class="form-control" type="text" name="name" value="<?php echo isset($this->customer) ? View::noHTML($this->customer->getName()) : ''; ?>">
+<input class="form-control" type="text" name="name" value="<?php echo TemplateView::noHTML($customer->getName()) ?>">
 ```
 ___
 ```PHP
-class View {
+class TemplateView {
 
     public static function noHTML($input, $bEncodeAll = true, $encoding = "UTF-8")
     {
@@ -670,20 +716,20 @@ In the following the in stage 10 implemented `CustomerController`:
 class CustomerController
 {
     public static function create(){
-        $contentView = new View("customerEdit.php");
+        $contentView = new TemplateView("customerEdit.php");
         LayoutRendering::basicLayout($contentView);
     }
 
     public static function readAll(){
-        $contentView = new View("customers.php");
-        $contentView->customers = WECRMServiceImpl::getInstance()->findAllCustomer();
+        $contentView = new TemplateView("customers.php");
+        $contentView->customers = (new CustomerServiceImpl())->findAllCustomer();
         LayoutRendering::basicLayout($contentView);
     }
 
     public static function edit(){
         $id = $_GET["id"];
-        $contentView = new View("customerEdit.php");
-        $contentView->customer = WECRMServiceImpl::getInstance()->readCustomer($id);
+        $contentView = new TemplateView("customerEdit.php");
+        $contentView->customer = (new CustomerServiceImpl())->readCustomer($id);
         LayoutRendering::basicLayout($contentView);
     }
 
@@ -694,15 +740,15 @@ class CustomerController
         $customer->setEmail($_POST["email"]);
         $customer->setMobile($_POST["mobile"]);
         if ($customer->getId() === "") {
-            WECRMServiceImpl::getInstance()->createCustomer($customer);
+            (new CustomerServiceImpl())->createCustomer($customer);
         } else {
-            WECRMServiceImpl::getInstance()->updateCustomer($customer);
+            (new CustomerServiceImpl())->updateCustomer($customer);
         }
     }
 
     public static function delete(){
         $id = $_GET["id"];
-        WECRMServiceImpl::getInstance()->deleteCustomer($id);
+        (new CustomerServiceImpl())->deleteCustomer($id);
     }
 }
 ```
@@ -715,10 +761,10 @@ namespace view;
 class LayoutRendering
 {
     public static function basicLayout(View $contentView){
-        $view = new View("layout.php");
-        $view->header = (new View("header.php"))->render();
+        $view = new TemplateView("layout.php");
+        $view->header = (new TemplateView("header.php"))->render();
         $view->content = $contentView->render();
-        $view->footer = (new View("footer.php"))->render();
+        $view->footer = (new TemplateView("footer.php"))->render();
         echo $view->render();
     }
 }
@@ -726,42 +772,739 @@ class LayoutRendering
 
 ### Stage 11: Validation
 
-In stage 11, a PHP input field validator is implemented. Validation refers to the possibility to verify certain fields such as an email field containing a valid email address (name@domain.nic). Validation can be realised on the client and back-end side. This PHP validation is realised on the PHP back-end, by implementing domain-specific validation classes.
+In stage 11, a PHP input field validator is implemented. Validation refers to the possibility to verify certain fields such as an email field containing a valid email address (name@domain.nic). Validation can be realised on the client and back-end side. This PHP validation is realised on the PHP back-end, by implementing domain-specific validation classes:
+
+```PHP
+class CustomerValidator
+{
+    private $valid = true;
+    private $emailError = null;
+
+    public function __construct(Customer $customer = null)
+    {
+        if (!is_null($customer)) {
+            $this->validate($customer);
+        }
+    }
+
+    public function validate(Customer $customer)
+    {
+        if (!is_null($customer)) {
+            if (!filter_var($customer->getEmail(), FILTER_VALIDATE_EMAIL)) {
+                $this->emailError = 'Please enter a valid email address';
+                $this->valid = false;
+            }
+        } else {
+            $this->valid = false;
+        }
+        return $this->valid;
+
+    }
+
+    public function isValid()
+    {
+        return $this->valid;
+    }
+
+    public function isEmailError()
+    {
+        return isset($this->emailError);
+    }
+
+    public function getEmailError()
+    {
+        return $this->emailError;
+    }
+}
+```
+
+Such a validator can then be used in a controller to verify if the provided date is valid:
+
+```PHP
+class CustomerController
+{
+    public static function update(){
+        $customer = new Customer();
+        // ...
+        $customerValidator = new CustomerValidator($customer);
+        if($customerValidator->isValid()) {
+            // ...
+        }
+        else{
+            $contentView = new TemplateView("customerEdit.php");
+            $contentView->customer = $customer;
+            $contentView->customerValidator = $customerValidator;
+            LayoutRendering::basicLayout($contentView);
+            return false;
+        }
+        return true;
+    }
+
+}
+```
+
+If data is invalid, error messages can be displayed:
+
+```HTML
+<div class="form-group <?php echo $customerValidator->isEmailError() ? "has-error" : ""; ?>">
+    <div class="input-group">
+        <div class="input-group-addon"><span>Email </span></div>
+        <input class="form-control" type="email" name="email" value="<?php echo TemplateView::noHTML($customer->getEmail()) ?>">
+    </div>
+    <p class="help-block"><?php echo $customerValidator->getEmailError() ?></p>
+</div>
+```
 
 ### Stage 12: Auth and Remember Me
 
-- extending auth controller with token
-- auth token dao
-- auth token domain
-- auth token in service
-- remember me in login view
+In this stage 12, the token-based securing of the business services will be extended, and a remember me functionality will be implemented. The business services are secured using an internal token, which is bound to the session, since stage 09. In this stage, the generated token will be securely stored in the database. Therefore an `AuthToken` domain object (as shown in the [Domain Model](#domain-model)) with a corresponding `AuthTokenDAO` (as shown in the [Data Access Model](#data-access-model)) will be crated. The `AuthToken` database table has been implemented as follows:
+
+```SQL
+CREATE TABLE AuthToken (
+  ID         SERIAL NOT NULL, 
+  AgentID    int4 NOT NULL, 
+  Selector   varchar(255) NOT NULL, 
+  Validator  varchar(255) NOT NULL, 
+  Expiration timestamp NOT NULL, 
+  Type       int4 NOT NULL, 
+  PRIMARY KEY (ID));
+ALTER TABLE AuthToken ADD CONSTRAINT AgentToken FOREIGN KEY (AgentID) REFERENCES Agent (ID);
+```
+
+The `AuthServiceImpl` will then be extended to issue, persist and validate a token based on the guidelines of the [Paragon Initiative Enterprises Blog](https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence) and the [OWASP](https://www.owasp.org/index.php/PHP_Security_Cheat_Sheet#Authentication):
+```PHP
+class AuthServiceImpl implements AuthService {
+    public function issueToken($type = self::AGENT_TOKEN, $email = null) {
+        $token = new AuthToken();
+        $token->setSelector(bin2hex(random_bytes(5)));
+        $token->setType(self::AGENT_TOKEN);
+        $token->setAgentid($this->currentAgentId);
+        $timestamp = (new \DateTime('now'))->modify('+30 days');
+        $token->setExpiration($timestamp->format("Y-m-d H:i:s"));
+        $validator = random_bytes(20);
+        $token->setValidator(hash('sha384', $validator));
+        $authTokenDAO = new AuthTokenDAO();
+        $authTokenDAO->create($token);
+        return $token->getSelector() .":". bin2hex($validator);
+    }
+
+    public function validateToken($token) {
+        $tokenArray = explode(":", $token);
+        $authTokenDAO = new AuthTokenDAO();
+        $authToken = $authTokenDAO->findBySelector($tokenArray[0]);
+        if (!empty($authToken)) {
+            if(time()<=(new \DateTime($authToken->getExpiration()))->getTimestamp()){
+                if (hash_equals(hash('sha384', hex2bin($tokenArray[1])), $authToken->getValidator())) {
+                    $this->currentAgentId = $authToken->getAgentid();
+                    return true;
+                }
+            }
+            $authTokenDAO->delete($authToken);
+        }
+        return false;
+    }
+}
+```
+
+The token, which is managed by the `AuthToken` domain object (as shown in the [Domain Model](#domain-model)), is separated into a `selector` and a `validator`. The `selector` is a random key to select a token from the database. This `selector` is not hashed and not the user id to avoid exposing the number of users of the system. The `validator` is a random key that must be hashed before storing in the database. 
+
+The `AuthController` will then be extended to set a remember me cookie containing the issued token:
+
+```PHP
+public static function login(){
+    $authService = AuthServiceImpl::getInstance();
+    if($authService->verifyAgent($_POST["email"],$_POST["password"]))
+    {
+        $token = $authService->issueToken();
+        $_SESSION["agentLogin"]["token"] = $token;
+        if(isset($_POST["remember"])) {
+            setcookie("token", $token, (new \DateTime('now'))->modify('+30 days')->getTimestamp(), "/");
+        }
+    }
+}
+```
+
+Finally, the remember me feature can be added to the login view:
+
+```HTML
+<div class="form-group">
+    <div class="checkbox">
+        <label class="control-label">
+            <input type="checkbox" name="remember" />Remember me for 30 days</label>
+    </div>
+</div>
+```
 
 ### Stage 13: Email and Password Reset
 
-Adding SENDGRID_APIKEY to config.env and extend Config Class
-Add SENDGRID_APIKEY to heroku env
+In stage 13, an email sending and password reset functionalities will be implemented.
 
-- SendGrid API
-- reset token in service
-- email service client
-- password forget in login view
+#### Email
+
+Although there exists a mail functionality in PHP, an external mail service/API is used here. An external API can offer additional functionalities and can provide an easier implementation. In this reference project, the SendGrid API is used for sending emails. Before using the SendGrid API an Account and an API-Key is required. This API key must be stored in an external configuration file and kept outside of version control. It is advisable that the API key will be stored in the [.env Config File](#env-config-files) as follows:
+
+```ini
+[email]
+sendgrid-apikey=
+```
+
+To make use of the externalized API key, the config class should be extended:
+
+```PHP
+class Config
+{
+    protected static $iniFile = "config/config.env";
+    protected static $config = [];
+
+    public static function init()
+    {
+        if (file_exists(self::$iniFile)) {
+            $data = parse_ini_file(self::$iniFile, true);
+            //...
+            self::$config["email"]["sendgrid-apikey"] = $data["email"]["sendgrid-apikey"];
+        } else {
+            if (isset($_ENV["SENDGRID_APIKEY"])) {
+                self::$config["email"]["sendgrid-apikey"] = getenv('SENDGRID_APIKEY');
+            }
+        }
+    }
+
+//...
+
+    public static function emailConfig($key)
+    {
+        if (empty(self::$config))
+            self::init();
+        return self::$config["email"][$key];
+    }
+
+}
+```
+
+If running this reference project on Heroku, the SendGrid API Key should be stored in an environment variable, e.g. `SENDGRID_APIKEY`.
+
+Based on the [SendGrid API documentation](https://sendgrid.com/docs/API_Reference/index.html) the email service is implemented using plain PHP as follows:
+
+```PHP
+class EmailServiceClient
+{
+
+    public static function sendEmail($toEmail, $subject, $htmlData){
+        $jsonObj = self::createEmailJSONObj();
+        $jsonObj->personalizations[0]->to[0]->email = $toEmail;
+        $jsonObj->subject = $subject;
+        $jsonObj->content[0]->value = $htmlData;
+
+        $options = ["http" => [
+            "method" => "POST",
+            "header" => ["Content-Type: application/json",
+                "Authorization: Bearer ".Config::emailConfig("sendgrid-apikey").""],
+            "content" => json_encode($jsonObj)
+        ]];
+        $context = stream_context_create($options);
+        $response = file_get_contents("https://api.sendgrid.com/v3/mail/send", false, $context);
+        if(strpos($http_response_header[0],"202"))
+            return true;
+        return false;
+    }
+
+    protected static function createEmailJSONObj(){
+        return json_decode('{
+          "personalizations": [
+            {
+              "to": [
+                {
+                  "email": "email"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "email": "noreply@fhnw.ch",
+            "name": "WE-CRM"
+          },
+          "subject": "subject",
+          "content": [
+            {
+              "type": "text/html",
+              "value": "value"
+            }
+          ]
+        }');
+    }
+}
+```
+
+#### Password Reset
+
+A password reset functionality without a two-factor authentication can't be implemented securely since email is always the weak point. Nevertheless, it is strongly recommended to implement a token-based password reset functionality similar to the [Remember Me](#stage-12-auth-and-remember-me) implementation.
+
+The `AuthServiceImpl` has been extended to issue `RESET_TOKEN`:
+```PHP
+class AuthServiceImpl implements AuthService {
+
+//...
+    
+    public function issueToken($type = self::AGENT_TOKEN, $email = null) {
+        $token = new AuthToken();
+        $token->setSelector(bin2hex(random_bytes(5)));
+        if($type===self::AGENT_TOKEN) {
+            $token->setType(self::AGENT_TOKEN);
+            $token->setAgentid($this->currentAgentId);
+            $timestamp = (new \DateTime('now'))->modify('+30 days');
+        }
+        elseif(isset($email)){
+            $token->setType(self::RESET_TOKEN);
+            $token->setAgentid((new AgentDAO())->findByEmail($email)->getId());
+            $timestamp = (new \DateTime('now'))->modify('+1 hour');
+        }else{
+            throw new HTTPException(HTTPStatusCode::HTTP_406_NOT_ACCEPTABLE, 'RESET_TOKEN without email');
+        }
+        $token->setExpiration($timestamp->format("Y-m-d H:i:s"));
+        $validator = random_bytes(20);
+        $token->setValidator(hash('sha384', $validator));
+        $authTokenDAO = new AuthTokenDAO();
+        $authTokenDAO->create($token);
+        return $token->getSelector() .":". bin2hex($validator);
+    }
+}
+```
+
+The `AuthServiceImpl` and the `EmailServiceClient` can then be used in the `AgentPasswordResetController` to provide the password-reset functionality:
+
+```PHP
+class AgentPasswordResetController
+{
+
+    public static function resetView(){
+        $resetView = new TemplateView("agentPasswordReset.php");
+        $resetView->token = $_GET["token"];
+        echo $resetView->render();
+    }
+    
+    public static function requestView(){
+        echo (new TemplateView("agentPasswordResetRequest.php"))->render();
+    }
+    
+    public static function reset(){
+        if(AuthServiceImpl::getInstance()->validateToken($_POST["token"])){
+            $agent = AuthServiceImpl::getInstance()->readAgent();
+            $agent->setPassword($_POST["password"]);
+            $agentValidator = new AgentValidator($agent);
+            if($agentValidator->isValid()){
+                if(AuthServiceImpl::getInstance()->editAgent($agent->getName(),$agent->getEmail(), $agent->getPassword())){
+                    return true;
+                }
+            }
+            $agent->setPassword("");
+            $resetView = new TemplateView("agentPasswordReset.php");
+            $resetView->token = $_POST["token"];
+            echo $resetView->render();
+            return false;
+        }
+        return false;
+    }
+
+    public static function resetEmail(){
+        $token = AuthServiceImpl::getInstance()->issueToken(AuthServiceImpl::RESET_TOKEN, $_POST["email"]);
+        $emailView = new TemplateView("agentPasswordResetEmail.php");
+        $emailView->resetLink = $GLOBALS["ROOT_URL"] . "/password/reset?token=" . $token;
+        return EmailServiceClient::sendEmail($_POST["email"], "Password Reset Email", $emailView->render());
+    }
+
+}
+```
 
 ### Stage 14: PDF
-- HyPDF API
+
+In this stage 14, a PDF creation service is used, which is called HyPDF. HyPDF provides an API for generating PDF files from text or HTML.
+
+Similar to stage 13, the HyPDF username and password must be stored outside of the source code, preferably in a config file:
+
+```PHP
+class Config
+{
+    protected static $iniFile = "config/config.env";
+    protected static $config = [];
+
+    public static function init()
+    {
+        if (file_exists(self::$iniFile)) {
+            $data = parse_ini_file(self::$iniFile, true);
+            //...
+            self::$config["pdf"]["hypdf-user"] = $data["pdf"]["hypdf-user"];
+            self::$config["pdf"]["hypdf-password"] = $data["pdf"]["hypdf-password"];
+        } else {
+            if (isset($_ENV["HYPDF_USER"])) {
+                self::$config["pdf"]["hypdf-user"] = getenv('HYPDF_USER');
+            }
+            if (isset($_ENV["HYPDF_PASSWORD"])) {
+                self::$config["pdf"]["hypdf-password"] = getenv('HYPDF_PASSWORD');
+            }
+        }
+    }
+
+//...
+
+    public static function pdfConfig($key)
+    {
+        if (empty(self::$config))
+            self::init();
+        return self::$config["pdf"][$key];
+    }
+}
+```
+
+To generate a PDF out of an HTML file, the HyPDF API can be used as follows:
+
+```PHP
+class PDFServiceClient
+{
+
+    public static function sendPDF($htmlData){
+        $jsonObj = self::createPDFJSONObj();
+        $jsonObj->user = Config::pdfConfig("hypdf-user");
+        $jsonObj->password = Config::pdfConfig("hypdf-password");
+        $jsonObj->content = $htmlData;
+
+        $options = ["http" => [
+            "method" => "POST",
+            "header" => ["Content-Type: application/json"],
+            "content" => json_encode($jsonObj)
+        ]];
+        $context = stream_context_create($options);
+        $response = file_get_contents("https://www.hypdf.com/htmltopdf", false, $context);
+        if(strpos($http_response_header[0],"200"))
+            return $response;
+        return false;
+    }
+
+    protected static function createPDFJSONObj(){
+        return json_decode('{"content": "HTML", "user": "HYPDF_USER", "password": "YOUR_HYPDF_PASSWORD", "test": "true"}');
+    }
+}
+```
+
+The return value of the `sendPDF` method contains a PDF, which can be echoed back to the browser.
 
 ### Stage 15: REST Service API
 
-- change router to work with REST paths
-- abstractJSONDTO for customer
-- service endpoint
+In this stage 15, an own REST Service API is provided and implemented. 
 
-### Stage 16: JavaScript & jQuery Client
+#### API Model
 
-## Evaluation and Deployment
+![](modelling/images/WE-CRM-API.png)
+
+#### API Authorization
+First, the API authorization is implemented in the `ServiceEndpoint` using basic authentication with username and password at a first stage to retrieve an access token, and then a token based authorization for the subsequent API calls:
+
+```PHP
+class ServiceEndpoint
+{
+
+    public static function authenticateToken(){
+        if (isset($_SERVER["HTTP_AUTHORIZATION"])){
+            if(strripos($_SERVER["HTTP_AUTHORIZATION"], " ")){
+                list($type, $data) = explode(" ", $_SERVER["HTTP_AUTHORIZATION"], 2);
+                if (strcasecmp($type, "Bearer") == 0) {
+                    if(AuthServiceImpl::getInstance()->validateToken($data)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static function authenticateBasic(){
+        if (isset($_SERVER["HTTP_AUTHORIZATION"])){
+            if(strripos($_SERVER["HTTP_AUTHORIZATION"], " ")) {
+                list($type, $data) = explode(" ", $_SERVER["HTTP_AUTHORIZATION"], 2);
+                if (strcasecmp($type, "Basic") == 0) {
+                    list($name, $password) = explode(':', base64_decode($data));
+                    if (AuthServiceImpl::getInstance()->verifyAgent($name, $password)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    //...
+}
+```
+
+#### JSON Serialization
+
+A serialization and deserialization mechanism is required map the [Domain Objects](#domain-objects) with JSON objects. This reference project provides an abstract data transfer object (DTO), which provides this serialisation mechanism:
+
+```PHP
+abstract class AbstractJSONDTO implements \JsonSerializable
+{
+    //...
+
+    public static function Deserialize($decodedJSON)
+    {
+        $className = get_called_class();
+        $classInstance = new $className();
+
+        foreach ($decodedJSON as $key => $value) {
+            if (property_exists($classInstance, $key)) {
+                $classInstance->{$key} = $value;
+            }
+        }
+
+        return $classInstance;
+    }
+
+    function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
+}
+```
+
+#### Service Endpoint
+
+Based on the [API Model](#api-model), a `ServiceEndpint` on business layer has been implemented as follows:
+
+```PHP
+class ServiceEndpoint
+{
+
+    //...
+
+    public static function loginBasicToken(){
+        $authService = AuthServiceImpl::getInstance();
+        HTTPHeader::setHeader("Authorization: " . $authService->issueToken(), HTTPStatusCode::HTTP_204_NO_CONTENT, false);
+    }
+
+    public static function validateToken(){
+        HTTPHeader::setStatusHeader(HTTPStatusCode::HTTP_202_ACCEPTED);
+    }
+
+    public static function findAllCustomer(){
+        $responseData = (new CustomerServiceImpl())->findAllCustomer();
+        HTTPHeader::setHeader("Content-Type: application/json", HTTPStatusCode::HTTP_200_OK, true);
+        echo json_encode($responseData);
+    }
+
+    public static function readCustomer($id){
+        $responseData = (new CustomerServiceImpl())->readCustomer($id);
+        HTTPHeader::setHeader("Content-Type: application/json", HTTPStatusCode::HTTP_200_OK, true);
+        echo json_encode($responseData);
+    }
+
+    public static function updateCustomer($customerId = null){
+        $requestData = json_decode(file_get_contents("php://input"), true);
+        $customer = Customer::Deserialize($requestData);
+        $customerValidator = new CustomerValidator($customer);
+        if($customerValidator->isValid()) {
+            if (is_null($customerId)) {
+                $customer = (new CustomerServiceImpl())->createCustomer($customer);
+                $location = $GLOBALS["ROOT_URL"] . $_SERVER['PATH_INFO'] . $customer->getId();
+                HTTPHeader::setHeader("Location: " . $location, HTTPStatusCode::HTTP_201_CREATED, true);
+            } else {
+                $customer->setId($customerId);
+                (new CustomerServiceImpl())->updateCustomer($customer);
+                HTTPHeader::setStatusHeader(HTTPStatusCode::HTTP_204_NO_CONTENT);
+            }
+        }
+        else{
+            return false;
+        }
+        return true;
+    }
+
+    public static function createCustomer(){
+        return self::updateCustomer();
+    }
+
+    public static function deleteCustomer($id){
+        (new CustomerServiceImpl())->deleteCustomer($id);
+        HTTPHeader::setStatusHeader(HTTPStatusCode::HTTP_204_NO_CONTENT);
+    }
+
+}
+```
+
+#### API Routes
+
+In most PHP and node.js frameworks, it is common to keep the API routes separated from the `ServiceEndpoint` implementation. In the following route definitions the [API Model](#api-model) has been realized:
+
+```PHP
+Router::route_auth("GET", "/api/token", $authAPIBasicFunction, function () {
+    ServiceEndpoint::loginBasicToken();
+});
+
+Router::route_auth("HEAD", "/api/token", $authAPITokenFunction, function () {
+    ServiceEndpoint::validateToken();
+});
+
+Router::route_auth("GET", "/api/customer", $authAPITokenFunction, function () {
+    ServiceEndpoint::findAllCustomer();
+});
+
+Router::route_auth("GET", "/api/customer/{id}", $authAPITokenFunction, function ($id) {
+    ServiceEndpoint::readCustomer($id);
+});
+
+Router::route_auth("PUT", "/api/customer/{id}", $authAPITokenFunction, function ($id) {
+    ServiceEndpoint::updateCustomer($id);
+});
+
+Router::route_auth("POST", "/api/customer", $authAPITokenFunction, function () {
+    ServiceEndpoint::createCustomer();
+});
+
+Router::route_auth("DELETE", "/api/customer/{id}", $authAPITokenFunction, function ($id) {
+    ServiceEndpoint::deleteCustomer($id);
+});
+```
+
+### Stage 16: JavaScript and jQuery Client
+
+In stage 16, a JavaScirpt/jQuery based API consumer is implemented. The implementation is realized by AJAX calls provided as functions in an `app.js` file:
+
+```HTML
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/app.js"></script>
+```
+
+#### API Login and Local Token Storage
+
+On every HTML view, a token validation will be performed:
+```HTML
+<script language="JavaScript">
+    validateToken(function (result) {
+        if (!result) {
+            window.location.replace("agentLogin.html");
+        }
+    });
+</script>
+```
+
+If the current token in the local storage is not available or invalid, the user is asked to provide email and password, which then performs a basic authorization to receive a valid access token:
+
+```JavaScript
+function getToken(email, password, callback) {
+    $.ajax({
+        type: "GET",
+        headers: {
+            "Authorization": "Basic " + btoa(email + ":" + password)
+        },
+        url: serviceEndpointURL + "/token",
+        success: function (data, textStatus, response) {
+            localStorage.setItem("token", response.getResponseHeader("Authorization"));
+            callback(true);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown);
+            callback(false);
+        }
+    });
+}
+
+function validateToken(callback) {
+    $.ajax({
+        type: "HEAD",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        url: serviceEndpointURL + "/token",
+        success: function (data, textStatus, response) {
+            callback(true);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            callback(false);
+        }
+    });
+}
+```
+
+#### AJAX Calls for API Consumption
+
+It is not required to use third-party libraries for REST clients. Nevertheless, libraries, such as jQuery, can enhance the readability of REST calls significantly. REST APIs can be consumed with jQuery based AJAX calls using the following pattern:
+
+```JavaScript
+function getCustomers(callback) {
+    $.ajax({
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        dataType: "json",
+        url: serviceEndpointURL + "/customer",
+        success: function (data, textStatus, response) {
+            console.log(textStatus);
+            callback(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown);
+        }
+    });
+}
+
+function postCustomer(customer, callback) {
+    $.ajax({
+        type: "POST",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        url: serviceEndpointURL + "/customer",
+        data: customer,
+        success: function (data, textStatus, response) {
+            console.log(textStatus);
+            callback(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown);
+        }
+    });
+}
+
+function getCustomer(customerID, callback) {
+    $.ajax({
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        dataType: "json",
+        url: serviceEndpointURL + "/customer/" + customerID,
+        success: function (data, textStatus, response) {
+            console.log(textStatus);
+            callback(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown);
+        }
+    });
+}
+```
+
+This reference project uses plain jQuery to append HTML elements to the DOM:
+```JavaScript
+function loadData() {
+    getCustomers(function (result) {
+        $("#tableData").empty();
+        $.each(result, function (i, item) {
+            $("#tableData").append("<tr><td>" + item.id + "</td><td>" + item.name + "</td><td>" + item.email + "</td><td>" + item.mobile + "</td>" +
+                "<td><div class='btn-group btn-group-sm' role='group'>" +
+                "<a class='btn btn-default' role='button' href='customerEdit.html?id=" + item.id + "'> <i class='fa fa-edit'></i></a>" +
+                "<button class='btn btn-default' type='button' data-target='#confirm-modal' data-toggle='modal' data-id='" + item.id + "'> <i class='glyphicon glyphicon-trash'></i></button>" +
+                "</div></td></tr>"
+            )
+            ;
+        });
+    });
+}
+```
+
+Nevertheless, it might be advisable for readability to use a third-party library or a jQuery extension for appending HTML to the DOM.
+
+## Deployment
 
 ### Project Set-Up
-
-TODO: write
 
 #### Visual Paradigm
 #####  Default Parameter Direction Configuration
